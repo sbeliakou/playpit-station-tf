@@ -46,12 +46,12 @@ resource "google_compute_instance" "vm_instance_public" {
   }
 
   metadata_startup_script = templatefile("user-data.sh.tpl", {
-    BASICAUTH = "${lower(join("", regex("^(.).* (.*)$", var.user_name)))}:${var.basic_auth_password}"
-    DOMAIN_NAME= var.domain_name
-    USER_NAME = var.user_name
-    LOGLEVEL  = var.loglevel
-    TRAINING  = var.training
-    USESSL    = "yes"
+    BASICAUTH   = "${lower(join("", regex("^(.).* (.*)$", var.user_name)))}:${var.basic_auth_password}"
+    DOMAIN_NAME = var.domain_name
+    USER_NAME   = var.user_name
+    LOGLEVEL    = var.loglevel
+    TRAINING    = var.training
+    USESSL      = "yes"
   })
 
   network_interface {

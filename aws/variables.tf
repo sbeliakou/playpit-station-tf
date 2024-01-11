@@ -15,12 +15,12 @@ variable "ec2_sshkey_name" {
 }
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "c5d.xlarge"
 }
 
 variable "spot_price" {
-  type = string
+  type    = string
   default = "0.16"
 }
 
@@ -38,7 +38,7 @@ variable "basic_auth_password" {
 
 variable "vpc_name" {
   description = "vpc name"
-  type = string
+  type        = string
 }
 
 variable "domain_name" {

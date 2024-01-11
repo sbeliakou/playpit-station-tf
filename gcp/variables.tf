@@ -1,5 +1,5 @@
 variable "gcp_credentials_file" {
-  type = string
+  type    = string
   default = "~/.config/gcloud/application_default_credentials.json"
 }
 
@@ -16,7 +16,7 @@ variable "gcp_zone" {
 }
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "e2-medium"
 }
 
@@ -26,7 +26,7 @@ variable "loglevel" {
 
 variable "vpc_name" {
   description = "default vpc name"
-  type = string
+  type        = string
 }
 
 variable "subnet_name" {

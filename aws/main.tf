@@ -92,11 +92,11 @@ resource "aws_spot_instance_request" "instance" {
 
   user_data_replace_on_change = true
   user_data = base64encode(templatefile("user-data.sh.tpl", {
-    BASICAUTH = "${lower(join("", regex("^(.).* (.*)$", var.user_name)))}:${var.basic_auth_password}"
-    DOMAIN_NAME= var.domain_name
-    USER_NAME = var.user_name
-    LOGLEVEL  = var.loglevel
-    TRAINING  = var.training
-    USESSL    = "yes"
+    BASICAUTH   = "${lower(join("", regex("^(.).* (.*)$", var.user_name)))}:${var.basic_auth_password}"
+    DOMAIN_NAME = var.domain_name
+    USER_NAME   = var.user_name
+    LOGLEVEL    = var.loglevel
+    TRAINING    = var.training
+    USESSL      = "yes"
   }))
 }
