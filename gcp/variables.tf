@@ -1,50 +1,61 @@
 variable "gcp_credentials_file" {
-  type    = string
-  default = "~/.config/gcloud/application_default_credentials.json"
+  description = "Path to the Google Cloud Platform (GCP) Credentials file"
+  type        = string
+  default     = "~/.config/gcloud/application_default_credentials.json"
 }
 
 variable "gcp_project" {
-  type = string
+  description = "Google Cloud Platform (GCP) Project name"
+  type        = string
 }
 
 variable "gcp_region" {
-  type = string
+  description = "Google Cloud Platform (GCP) Region"
+  type        = string
 }
 
 variable "gcp_zone" {
-  type = string
-}
-
-variable "instance_type" {
-  type    = string
-  default = "e2-medium"
-}
-
-variable "loglevel" {
-  default = ""
+  description = "Google Cloud Platform (GCP) Zone"
+  type        = string
 }
 
 variable "vpc_name" {
-  description = "default vpc name"
+  description = "Virtual Private Cloud (VPC) name for deploying VM"
   type        = string
 }
 
 variable "subnet_name" {
-  type = string
+  description = "Subnet name"
+  type        = string
 }
 
 variable "domain_name" {
-  type = string
+  description = "Domain name"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Instance type for provisioning"
+  type        = string
+  default     = "e2-medium"
+}
+
+variable "loglevel" {
+  description = "Playpit platform log level configuration"
+  default     = ""
 }
 
 variable "user_name" {
-  type = string
+  description = "Playpit platform student name"
+  type        = string
 }
 
 variable "basic_auth_password" {
-  type = string
+  description = "Password for basic authentication"
+  type        = string
 }
 
 variable "training" {
-  type = string
+  description = "Playpit platform training configuration"
+  type        = string
 }
