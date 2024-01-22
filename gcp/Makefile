@@ -13,8 +13,8 @@ down: destroy
 destroy:
 	terraform destroy -auto-approve
 
-wait:
-	@while [[ ! "$(shell curl -sL -w '%{http_code}' $(shell terraform output -raw service_endpoint) -o /dev/null)" =~ 200|401 ]]; do \
-		curl -sL -w '%{http_code}' $(shell terraform output -raw service_endpoint) -o /dev/null; \
-		sleep 5; \
-  done && echo "It is up and ready now: $(shell terraform output -raw service_endpoint)"
+fmt:
+	terraform fmt
+
+doc: fmt
+	terraform-docs markdown  ./ > README.md

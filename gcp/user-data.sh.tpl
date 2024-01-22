@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export USER_NAME="${USER_NAME}"
 export DOMAIN_NAME="${DOMAIN_NAME}"
 export BASICAUTH="${BASICAUTH}"
