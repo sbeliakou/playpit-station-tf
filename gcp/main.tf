@@ -53,11 +53,6 @@ resource "google_compute_instance" "vm_instance_public" {
   deletion_protection = false
   enable_display      = false
 
-  labels = {
-    Training = var.training
-    Student = var.user_name
-  }
-
   machine_type = var.instance_type
   zone         = var.gcp_zone
   tags         = ["http-server", "https-server"]
