@@ -62,10 +62,10 @@ No modules.
 | <a name="input_gcp_project"></a> [gcp\_project](#input\_gcp\_project) | n/a | `string` | `""` | no |
 | <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | n/a | `string` | `""` | no |
 | <a name="input_gcp_zone"></a> [gcp\_zone](#input\_gcp\_zone) | n/a | `string` | `""` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | `"c2d-highcpu-4"` | no |
+| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | `""` | no |
 | <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `""` | no |
 | <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | n/a | `string` | `""` | no |
-| <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `"docker"` | no |
+| <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `""` | no |
 | <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `""` | no |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `""` | no |
 

@@ -19,7 +19,7 @@ The code incorporates dynamic values through Terraform variables (`variables.tf`
 
 To define your stack configuration, the following steps should be done:
 
-1. Create a new file `override.tf` from current `variables.tf`
+1. Create a new file `override.tf` from current `variables.tf` 
 2. Define your settings corresponding to your AWS account, training specification and set up the proper Student's name, define a password for Basic AUTH
 3. Create EC2 instance with `make up` command
 4. Destroy EC2 instance with `make down` command
@@ -61,19 +61,19 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | n/a | `string` | `"eu-west-1a"` | no |
-| <a name="input_basic_auth_password"></a> [basic\_auth\_password](#input\_basic\_auth\_password) | n/a | `string` | `"Go2ONgo0"` | no |
+| <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | n/a | `string` | `""` | no |
+| <a name="input_basic_auth_password"></a> [basic\_auth\_password](#input\_basic\_auth\_password) | n/a | `string` | `""` | no |
 | <a name="input_create_ec2"></a> [create\_ec2](#input\_create\_ec2) | n/a | `bool` | `true` | no |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `"aws.xip.playpit.net"` | no |
-| <a name="input_ec2_sshkey_name"></a> [ec2\_sshkey\_name](#input\_ec2\_sshkey\_name) | n/a | `string` | `"aws-sbeliakou"` | no |
+| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `""` | no |
+| <a name="input_ec2_sshkey_name"></a> [ec2\_sshkey\_name](#input\_ec2\_sshkey\_name) | n/a | `string` | `""` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 Instance Type | `string` | `"c5d.xlarge"` | no |
-| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `"DEBUGAH100"` | no |
-| <a name="input_myip"></a> [myip](#input\_myip) | n/a | `string` | `"127.0.0.1/32"` | no |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `"eu-west-1"` | no |
-| <a name="input_spot_price"></a> [spot\_price](#input\_spot\_price) | Max Price for SPOT offerings | `string` | `"0.16"` | no |
-| <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `"docker"` | no |
-| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `"Siarhei Beliakou"` | no |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `"devops-default-vpc"` | no |
+| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `""` | no |
+| <a name="input_myip"></a> [myip](#input\_myip) | n/a | `string` | `""` | no |
+| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `""` | no |
+| <a name="input_spot_price"></a> [spot\_price](#input\_spot\_price) | Max Price for SPOT offerings | `string` | `""` | no |
+| <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `""` | no |
+| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `""` | no |
+| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `""` | no |
 
 ## Outputs
 
