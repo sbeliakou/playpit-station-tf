@@ -20,14 +20,14 @@
  * 
  * To define your stack configuration, the following steps should be done:
  * 
- * 1. Create a new file `override.tf` from current `variables.tf`
+ * 1. Create a new file `override.tf` from current `variables.tf`, or update `terraform.tfvars`
  * 2. Define your settings corresponding to your AWS account, training specification and set up the proper Student's name, define a password for Basic AUTH
  * 3. Create EC2 instance with `make up` command
  * 4. Destroy EC2 instance with `make down` command
  * 
  * The current configuration doesn't cover:
  *
- * - VPC and subnet creation - the existing names should be provided in `override.tf` file
+ * - VPC and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
  * - VPC is to be chosen by the provided "tag:Name", and the subnet is chosen by Availability Zone - improve this code for more flexibility if needed
  * - Security group enables https access from your public IP Address - "var.my_ip" is provided from Makefile
  *
@@ -52,7 +52,7 @@ data "aws_ami" "ubuntu" {
 data "aws_vpc" "this" {
   filter {
     name   = "tag:Name"
-    values = [var.vpc_name]
+    values = [var.aws_vpc_name]
   }
 }
 
@@ -63,7 +63,7 @@ data "aws_subnets" "public" {
   }
   filter {
     name   = "availability-zone"
-    values = [var.availability_zone]
+    values = [var.aws_availability_zone]
   }
 }
 
@@ -105,22 +105,32 @@ resource "random_id" "instance_id" {
   byte_length = 4
 }
 
+resource "random_string" "password" {
+  length           = 16
+  special          = true
+  lower            = true
+  upper            = true
+  override_special = "*-_=+"
+}
+
 locals {
-  instance_name    = "playpit-vm${random_id.instance_id.hex}-${var.training}"
-  basic_auth_login = lower(join("", regex("^(.).* (.*)$", var.user_name)))
-  public_fqdn      = format("%s.%s", replace(aws_spot_instance_request.instance.public_ip, ".", "-"), var.domain_name)
+  instance_name = "playpit-vm${random_id.instance_id.hex}-${var.training}"
+  public_fqdn   = format("%s.%s", replace(aws_spot_instance_request.instance.public_ip, ".", "-"), var.domain_name)
+
+  basic_auth_password = var.basic_auth_password != "" ? var.basic_auth_password : random_string.password.result
+  basic_auth_login    = lower(join("", regex("^(.).* (.*)$", var.user_name)))
 }
 
 resource "aws_spot_instance_request" "instance" {
   ami = data.aws_ami.ubuntu.id
 
-  spot_price           = var.spot_price
+  spot_price           = var.aws_spot_price
   spot_type            = "one-time"
   wait_for_fulfillment = true
   # block_duration_minutes = [60]
 
-  instance_type = var.instance_type
-  key_name      = var.ec2_sshkey_name
+  instance_type = var.aws_instance_type
+  key_name      = var.aws_ec2_sshkey_name
 
   vpc_security_group_ids = [
     aws_security_group.playpit_station_access.id
@@ -136,17 +146,17 @@ resource "aws_spot_instance_request" "instance" {
 
   user_data_replace_on_change = true
   user_data = base64encode(templatefile("user-data.sh.tpl", {
-    BASICAUTH   = "${local.basic_auth_login}:${var.basic_auth_password}"
+    BASICAUTH   = "${local.basic_auth_login}:${local.basic_auth_password}"
     DOMAIN_NAME = var.domain_name
     USER_NAME   = var.user_name
     LOGLEVEL    = var.loglevel
     TRAINING    = var.training
-    USESSL      = "yes"
+    SSL         = var.domain_name == "" ? "no" : "yes"
   }))
 
   tags = {
-    Name = local.instance_name
+    Name     = local.instance_name
     Training = var.training
-    Student = var.user_name
+    Student  = var.user_name
   }
 }

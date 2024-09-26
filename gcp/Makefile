@@ -2,7 +2,7 @@ init:
 	terraform init --upgrade
 
 plan:
-	terraform plan
+	terraform plan $(shell test -f terraform.tfvars.override && echo "-var-file=terraform.tfvars.override")
 
 up: apply
 run: apply

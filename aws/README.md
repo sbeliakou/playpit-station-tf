@@ -19,14 +19,14 @@ The code incorporates dynamic values through Terraform variables (`variables.tf`
 
 To define your stack configuration, the following steps should be done:
 
-1. Create a new file `override.tf` from current `variables.tf` 
+1. Create a new file `override.tf` from current `variables.tf`, or update `terraform.tfvars`
 2. Define your settings corresponding to your AWS account, training specification and set up the proper Student's name, define a password for Basic AUTH
 3. Create EC2 instance with `make up` command
 4. Destroy EC2 instance with `make down` command
 
 The current configuration doesn't cover:
 
-- VPC and subnet creation - the existing names should be provided in `override.tf` file
+- VPC and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
 - VPC is to be chosen by the provided "tag:Name", and the subnet is chosen by Availability Zone - improve this code for more flexibility if needed
 - Security group enables https access from your public IP Address - "var.my\_ip" is provided from Makefile
 
@@ -34,14 +34,15 @@ The current configuration doesn't cover:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | 1.6.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.31.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.5.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.31.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
 
@@ -53,6 +54,8 @@ No modules.
 |------|------|
 | [aws_security_group.playpit_station_access](https://registry.terraform.io/providers/hashicorp/aws/5.31.0/docs/resources/security_group) | resource |
 | [aws_spot_instance_request.instance](https://registry.terraform.io/providers/hashicorp/aws/5.31.0/docs/resources/spot_instance_request) | resource |
+| [random_id.instance_id](https://registry.terraform.io/providers/hashicorp/random/3.5.1/docs/resources/id) | resource |
+| [random_string.password](https://registry.terraform.io/providers/hashicorp/random/3.5.1/docs/resources/string) | resource |
 | [aws_ami.ubuntu](https://registry.terraform.io/providers/hashicorp/aws/5.31.0/docs/data-sources/ami) | data source |
 | [aws_subnets.public](https://registry.terraform.io/providers/hashicorp/aws/5.31.0/docs/data-sources/subnets) | data source |
 | [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/5.31.0/docs/data-sources/vpc) | data source |
@@ -61,19 +64,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_availability_zone"></a> [availability\_zone](#input\_availability\_zone) | n/a | `string` | `""` | no |
-| <a name="input_basic_auth_password"></a> [basic\_auth\_password](#input\_basic\_auth\_password) | n/a | `string` | `""` | no |
-| <a name="input_create_ec2"></a> [create\_ec2](#input\_create\_ec2) | n/a | `bool` | `true` | no |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `""` | no |
-| <a name="input_ec2_sshkey_name"></a> [ec2\_sshkey\_name](#input\_ec2\_sshkey\_name) | n/a | `string` | `""` | no |
-| <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 Instance Type | `string` | `"c5d.xlarge"` | no |
-| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `""` | no |
-| <a name="input_myip"></a> [myip](#input\_myip) | n/a | `string` | `""` | no |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `""` | no |
-| <a name="input_spot_price"></a> [spot\_price](#input\_spot\_price) | Max Price for SPOT offerings | `string` | `""` | no |
-| <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `""` | no |
-| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `""` | no |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `""` | no |
+| <a name="input_aws_availability_zone"></a> [aws\_availability\_zone](#input\_aws\_availability\_zone) | AWS Availability Zone | `string` | n/a | yes |
+| <a name="input_aws_ec2_sshkey_name"></a> [aws\_ec2\_sshkey\_name](#input\_aws\_ec2\_sshkey\_name) | EC2 ssh key name | `string` | n/a | yes |
+| <a name="input_aws_instance_type"></a> [aws\_instance\_type](#input\_aws\_instance\_type) | EC2 Instance Type | `string` | `"c5d.xlarge"` | no |
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region | `string` | n/a | yes |
+| <a name="input_aws_spot_price"></a> [aws\_spot\_price](#input\_aws\_spot\_price) | Max Price for SPOT offerings | `string` | `"0.16"` | no |
+| <a name="input_aws_vpc_name"></a> [aws\_vpc\_name](#input\_aws\_vpc\_name) | VPC name | `string` | n/a | yes |
+| <a name="input_basic_auth_password"></a> [basic\_auth\_password](#input\_basic\_auth\_password) | Password for basic authentication. If unset, it will be generated by Terraform. | `string` | n/a | yes |
+| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Domain name, for example: if FQDN is '57-58-59-60.somwhere.com', then domain\_name variable should be like 'somewhere.com', and '57-58-59-60' will be picked from VM public IP automatically | `string` | n/a | yes |
+| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | Playpit platform log level configuration | `string` | `""` | no |
+| <a name="input_myip"></a> [myip](#input\_myip) | Home public IP | `string` | `"127.0.0.1/32"` | no |
+| <a name="input_training"></a> [training](#input\_training) | Playpit platform training configuration | `string` | n/a | yes |
+| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | Playpit platform student name | `string` | n/a | yes |
 
 ## Outputs
 
@@ -81,4 +83,5 @@ No modules.
 |------|-------------|
 | <a name="output_ami_id"></a> [ami\_id](#output\_ami\_id) | n/a |
 | <a name="output_ec2_public_ip"></a> [ec2\_public\_ip](#output\_ec2\_public\_ip) | n/a |
-| <a name="output_service_endpoint"></a> [service\_endpoint](#output\_service\_endpoint) | n/a |
+| <a name="output_playpit_instance"></a> [playpit\_instance](#output\_playpit\_instance) | n/a |
+| <a name="output_training"></a> [training](#output\_training) | n/a |
