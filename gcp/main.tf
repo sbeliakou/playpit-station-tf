@@ -19,14 +19,14 @@
  * 
  * To define your stack configuration, the following steps should be done:
  * 
- * 1. Create a new file `override.tf` from current `variables.tf`
+ * 1. Create a new file `override.tf` from current `variables.tf`, or update `terraform.tfvars` file
  * 2. Define your settings corresponding to your GCP project, training specification and set up the proper Student's name, define a password for Basic AUTH
  * 3. Create GCP compute instance with `make up` command
  * 4. Destroy compute instance with `make down` command
  * 
  * The current configuration doesn't cover:
  *
- * - Network and subnet creation - the existing names should be provided in `override.tf` file
+ * - Network and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
  */
 
 resource "random_id" "instance_id" {
