@@ -4,8 +4,12 @@ output "vm_public_ip" {
 
 output "playpit_instance" {
   value = {
-    url = format("https://%s", local.public_fqdn)
-    login = local.basic_auth_login
+    url      = format("https://%s", local.public_fqdn)
+    login    = local.basic_auth_login
     password = local.basic_auth_password
   }
+}
+
+output "training" {
+  value = var.training
 }

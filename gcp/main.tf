@@ -34,23 +34,23 @@ resource "random_id" "instance_id" {
 }
 
 resource "random_string" "password" {
-  length  = 16
-  special = true
-  lower   = true
-  upper   = true
+  length           = 16
+  special          = true
+  lower            = true
+  upper            = true
   override_special = "*-_=+"
 }
 
 locals {
-  instance_name    = "playpit-vm${random_id.instance_id.hex}"
-  public_fqdn      = format("%s.%s", replace(google_compute_instance.vm_instance_public.network_interface.0.access_config.0.nat_ip, ".", "-"), var.domain_name)
-  
+  instance_name = "playpit-vm${random_id.instance_id.hex}"
+  public_fqdn   = format("%s.%s", replace(google_compute_instance.vm_instance_public.network_interface.0.access_config.0.nat_ip, ".", "-"), var.domain_name)
+
   basic_auth_password = var.basic_auth_password != "" ? var.basic_auth_password : random_string.password.result
-  basic_auth_login = lower(join("", regex("^(.).* (.*)$", var.user_name)))
+  basic_auth_login    = lower(join("", regex("^(.).* (.*)$", var.user_name)))
 }
 
 data "google_compute_subnetwork" "this" {
-  name = basename(var.subnet_name)
+  name = basename(var.gcp_subnet_name)
 }
 
 resource "google_compute_firewall" "playpit_ingress" {
@@ -65,7 +65,7 @@ resource "google_compute_firewall" "playpit_ingress" {
     ]
   }
 
-  source_ranges = [ "0.0.0.0/0" ]
+  source_ranges = ["0.0.0.0/0"]
 }
 
 resource "google_compute_instance" "vm_instance_public" {
@@ -76,10 +76,10 @@ resource "google_compute_instance" "vm_instance_public" {
   deletion_protection = false
   enable_display      = false
 
-  machine_type = var.instance_type
+  machine_type = var.gcp_instance_type
   zone         = var.gcp_zone
 
-  tags         = [
+  tags = [
     format("%s-playpit-https", basename(data.google_compute_subnetwork.this.network))
   ]
 
@@ -121,8 +121,8 @@ resource "google_compute_instance" "vm_instance_public" {
   }
 
   network_interface {
-    network     = var.vpc_name
-    subnetwork  = var.subnet_name
+    network     = data.google_compute_subnetwork.this.network
+    subnetwork  = var.gcp_subnet_name
     stack_type  = "IPV4_ONLY"
     queue_count = 0
     access_config {}

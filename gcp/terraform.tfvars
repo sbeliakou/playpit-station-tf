@@ -2,13 +2,12 @@
 gcp_project = ""
 
 # Check available options here: https://cloud.google.com/compute/docs/regions-zones
-# Better to chose something close to training backend in AWS eu-west-1 (Ireland)
+# Better to choose something close to training backend in AWS eu-west-1 (Ireland)
 gcp_region = ""
-gcp_zone = ""
+gcp_zone   = ""
 
-# Use "default", or put your customly created VPC
-vpc_name = ""
-subnet_name = ""
+# Use "default", or put your customly created subnet
+gcp_subnet_name = ""
 
 # Let's encrypt may decline certificate issue for this domain
 # Please doublecheck with the options with your mentor

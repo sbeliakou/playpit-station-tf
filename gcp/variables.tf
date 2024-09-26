@@ -28,32 +28,22 @@ variable "gcp_zone" {
   }
 }
 
-variable "vpc_name" {
-  description = "The Virtual Private Cloud (VPC) name intended for deploying virtual machines (VMs). This VPC is assumed to be created independently of this Terraform stack. Just provide a name of the existing VPC."
-  type        = string
-
-  validation {
-    condition     = length(var.vpc_name) > 0
-    error_message = "The vpc_name variable must not be empty."
-  }
-}
-
-variable "subnet_name" {
+variable "gcp_subnet_name" {
   description = "Subnet name. Provide name of existing subnet"
   type        = string
 
   validation {
-    condition     = length(var.subnet_name) > 0
-    error_message = "The subnet_name variable must not be empty."
+    condition     = length(var.gcp_subnet_name) > 0
+    error_message = "The gcp_subnet_name variable must not be empty."
   }
 }
 
 variable "domain_name" {
-  description = "Domain name, for example: if FQDN is '57-58-59-60.somwhere.com', then domain_name variable should be 'somewhere.com', and '57-58-59-60' will be picked from VM public IP automatically"
+  description = "Domain name, for example: if FQDN is '57-58-59-60.somwhere.com', then domain_name variable should be like 'somewhere.com', and '57-58-59-60' will be picked from VM public IP automatically"
   type        = string
 }
 
-variable "instance_type" {
+variable "gcp_instance_type" {
   description = "Instance type for provisioning"
   type        = string
   default     = "c2d-highcpu-4"
