@@ -18,14 +18,14 @@ The code incorporates dynamic values through Terraform variables (`variables.tf`
 
 To define your stack configuration, the following steps should be done:
 
-1. Create a new file `override.tf` from current `variables.tf`
+1. Create a new file `override.tf` from current `variables.tf` or update `terraform.tfvars`
 2. Define your settings corresponding to your GCP project, training specification and set up the proper Student's name, define a password for Basic AUTH
 3. Create GCP compute instance with `make up` command
 4. Destroy compute instance with `make down` command
 
 The current configuration doesn't cover:
 
-- Network and subnet creation - the existing names should be provided in `override.tf` file
+- Network and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
 
 ## Requirements
 
@@ -57,18 +57,17 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_basic_auth_password"></a> [basic\_auth\_password](#input\_basic\_auth\_password) | n/a | `string` | `"GoNoGouy51Mg2V"` | no |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `"gcp.xip.playpit.net"` | no |
-| <a name="input_gcp_credentials_file"></a> [gcp\_credentials\_file](#input\_gcp\_credentials\_file) | n/a | `string` | `"~/.config/gcloud/application_default_credentials.json"` | no |
-| <a name="input_gcp_project"></a> [gcp\_project](#input\_gcp\_project) | n/a | `string` | `"myplatform-410717"` | no |
-| <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | n/a | `string` | `"europe-west1"` | no |
-| <a name="input_gcp_zone"></a> [gcp\_zone](#input\_gcp\_zone) | n/a | `string` | `"europe-west1-b"` | no |
+| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | n/a | `string` | `""` | no |
+| <a name="input_gcp_credentials_file"></a> [gcp\_credentials\_file](#input\_gcp\_credentials\_file) | n/a | `string` | `""` | no |
+| <a name="input_gcp_project"></a> [gcp\_project](#input\_gcp\_project) | n/a | `string` | `""` | no |
+| <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | n/a | `string` | `""` | no |
+| <a name="input_gcp_zone"></a> [gcp\_zone](#input\_gcp\_zone) | n/a | `string` | `""` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | n/a | `string` | `"c2d-highcpu-4"` | no |
-| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `"DEBUGUHD102"` | no |
-| <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | n/a | `string` | `"devops-default-vpc-subnet-public"` | no |
+| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | n/a | `string` | `""` | no |
+| <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | n/a | `string` | `""` | no |
 | <a name="input_training"></a> [training](#input\_training) | n/a | `string` | `"docker"` | no |
-| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `"Siarhei Beliakou"` | no |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `"devops-default-vpc"` | no |
+| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | n/a | `string` | `""` | no |
+| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | vpc name | `string` | `""` | no |
 
 ## Outputs
 

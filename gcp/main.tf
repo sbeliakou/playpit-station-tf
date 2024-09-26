@@ -29,20 +29,43 @@
  * - Network and subnet creation - the existing names should be provided in `override.tf` file
  */
 
-provider "google" {
-  credentials = file(var.gcp_credentials_file)
-  project     = var.gcp_project
-  region      = var.gcp_region
-}
-
 resource "random_id" "instance_id" {
   byte_length = 4
 }
 
+resource "random_string" "password" {
+  length  = 16
+  special = true
+  lower   = true
+  upper   = true
+  override_special = "*-_=+"
+}
+
 locals {
   instance_name    = "playpit-vm${random_id.instance_id.hex}"
-  basic_auth_login = lower(join("", regex("^(.).* (.*)$", var.user_name)))
   public_fqdn      = format("%s.%s", replace(google_compute_instance.vm_instance_public.network_interface.0.access_config.0.nat_ip, ".", "-"), var.domain_name)
+  
+  basic_auth_password = var.basic_auth_password != "" ? var.basic_auth_password : random_string.password.result
+  basic_auth_login = lower(join("", regex("^(.).* (.*)$", var.user_name)))
+}
+
+data "google_compute_subnetwork" "this" {
+  name = basename(var.subnet_name)
+}
+
+resource "google_compute_firewall" "playpit_ingress" {
+  name    = format("%s-playpit-https", basename(data.google_compute_subnetwork.this.network))
+  network = data.google_compute_subnetwork.this.network
+
+  allow {
+    protocol = "tcp"
+    ports = [
+      "80",
+      "443"
+    ]
+  }
+
+  source_ranges = [ "0.0.0.0/0" ]
 }
 
 resource "google_compute_instance" "vm_instance_public" {
@@ -55,18 +78,21 @@ resource "google_compute_instance" "vm_instance_public" {
 
   machine_type = var.instance_type
   zone         = var.gcp_zone
-  tags         = ["http-server", "https-server"]
+
+  tags         = [
+    format("%s-playpit-https", basename(data.google_compute_subnetwork.this.network))
+  ]
 
   metadata = {
     BASICAUTH_LOGIN    = local.basic_auth_login
-    BASICAUTH_PASSWORD = var.basic_auth_password
+    BASICAUTH_PASSWORD = local.basic_auth_password
     startup-script = templatefile("user-data.sh.tpl", {
-      BASICAUTH   = "${local.basic_auth_login}:${var.basic_auth_password}"
+      BASICAUTH   = "${local.basic_auth_login}:${local.basic_auth_password}"
       DOMAIN_NAME = var.domain_name
       USER_NAME   = var.user_name
       LOGLEVEL    = var.loglevel
       TRAINING    = var.training
-      USESSL      = "yes"
+      SSL         = var.domain_name == "" ? "no" : "yes"
     })
   }
 

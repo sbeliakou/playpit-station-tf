@@ -5,5 +5,6 @@ export DOMAIN_NAME="${DOMAIN_NAME}"
 export BASICAUTH="${BASICAUTH}"
 export LOGLEVEL="${LOGLEVEL}"
 export TRAINING="${TRAINING}"
-export SSL="${USESSL}"
+export SSL="${SSL}"
+
 curl -s http://assets.playpit.net/deploy.sh | bash
