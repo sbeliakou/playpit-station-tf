@@ -2,12 +2,12 @@ init:
 	terraform init --upgrade
 
 plan:
-	terraform plan $(shell test -f terraform.tfvars.override && echo "-var-file=terraform.tfvars.override")
+	terraform plan -var myip="$(shell curl -s ifconfig.io)/32" $(shell test -f terraform.tfvars.override && echo "-var-file=terraform.tfvars.override")
 
 up: apply
 run: apply
 apply: init
-	terraform apply -auto-approve
+	terraform apply -auto-approve -var myip="$(shell curl -s ifconfig.io)/32"
 
 down: destroy
 destroy:

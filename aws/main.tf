@@ -2,34 +2,34 @@
  * # Playpit EC2 Instance on AWS
  *
  * ## Description
- * This Terraform code provisions an Playpit environment on an AWS EC2 instance. 
+ * This Terraform code provisions a Playpit environment on an AWS EC2 Spot instance.
  * 
  * ### Provision details:
  * 
- * - Creates an EC2 instance with the specified configuration.
+ * - Creates an EC2 Spot instance with the specified configuration.
  * - Sets instance name, hostname, and other attributes.
- * - Configures metadata, instance type, security rules and tags.
+ * - Configures metadata, instance type, security rules, and tags.
  * - Defines instance-specific metadata, such as login credentials, startup script, etc.
- * - Configures scheduling options for preemptible instances.
+ * - Configures ephemeral storage for the instance.
  * - Defines boot disk details, including auto-delete, image, size, and mode.
  * - Configures network interface details, such as network, subnetwork, and access configuration.
- * - The user-data script installs the Playpit stack, configures SSL with Let's Encrypt and sets Basic AUTH by the provided settings (username/password)
- * - EC2 SPOT instance utilizes Instance storage for the best price trade-off
+ * - The user-data script installs the Playpit stack, configures SSL with Let's Encrypt, and sets Basic AUTH by the provided settings (username/password).
+ * - EC2 Spot instance utilizes instance storage for the best price trade-off.
  * 
  * The code incorporates dynamic values through Terraform variables (`variables.tf` and `override.tf`).
  * 
  * To define your stack configuration, the following steps should be done:
  * 
- * 1. Create a new file `override.tf` from current `variables.tf`, or update `terraform.tfvars`
- * 2. Define your settings corresponding to your AWS account, training specification and set up the proper Student's name, define a password for Basic AUTH
- * 3. Create EC2 instance with `make up` command
- * 4. Destroy EC2 instance with `make down` command
+ * 1. Create a new file `override.tf` from the current `variables.tf`, or update `terraform.tfvars`.
+ * 2. Define your settings corresponding to your AWS account, training specification, and set up the proper Student's name, define a password for Basic AUTH.
+ * 3. Create EC2 instance with `make up` command.
+ * 4. Destroy EC2 instance with `make down` command.
  * 
  * The current configuration doesn't cover:
  *
- * - VPC and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
- * - VPC is to be chosen by the provided "tag:Name", and the subnet is chosen by Availability Zone - improve this code for more flexibility if needed
- * - Security group enables https access from your public IP Address - "var.my_ip" is provided from Makefile
+ * - VPC and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file.
+ * - VPC is to be chosen by the provided "tag:Name", and the subnet is chosen by Availability Zone - improve this code for more flexibility if needed.
+ * - Security group enables HTTPS access from your public IP Address - "var.my_ip" is provided from Makefile.
  *
  */
 

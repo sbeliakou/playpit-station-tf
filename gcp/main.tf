@@ -2,7 +2,7 @@
  * # Playpit Compute Instance on GCP
  *
  * ## Description
- * This Terraform code provisions an Playpit environment on a Google Cloud Platform (GCP) Compute Engine instance. 
+ * This Terraform code provisions a Playpit environment on a Google Cloud Platform (GCP) Compute Engine instance.
  * 
  * ### Provision details:
  * 
@@ -13,20 +13,20 @@
  * - Configures scheduling options for preemptible instances.
  * - Defines boot disk details, including auto-delete, image, size, and mode.
  * - Configures network interface details, such as network, subnetwork, and access configuration.
- * - The startup script installs the Playpit stack, configures SSL with Let's Encrypt and sets Basic AUTH by the provided settings (username/password)
+ * - The startup script installs the Playpit stack, configures SSL with Let's Encrypt, and sets Basic AUTH by the provided settings (username/password).
  * 
  * The code incorporates dynamic values through Terraform variables (`variables.tf` and `override.tf`).
  * 
- * To define your stack configuration, the following steps should be done:
+ * To define your stack configuration, follow these steps:
  * 
- * 1. Create a new file `override.tf` from current `variables.tf`, or update `terraform.tfvars` file
- * 2. Define your settings corresponding to your GCP project, training specification and set up the proper Student's name, define a password for Basic AUTH
- * 3. Create GCP compute instance with `make up` command
- * 4. Destroy compute instance with `make down` command
+ * 1. Create a new file `override.tf` from the current `variables.tf`, or update the `terraform.tfvars` file.
+ * 2. Define your settings corresponding to your GCP project, training specification, and set up the proper student's name. Define a password for Basic AUTH.
+ * 3. Create the GCP compute instance with the `make up` command.
+ * 4. Destroy the compute instance with the `make down` command.
  * 
- * The current configuration doesn't cover:
+ * The current configuration does not cover:
  *
- * - Network and subnet creation - the existing names should be provided in `override.tf` or `terraform.tfvars` file
+ * - Network and subnet creation - the existing names should be provided in the `override.tf` or `terraform.tfvars` file.
  */
 
 resource "random_id" "instance_id" {

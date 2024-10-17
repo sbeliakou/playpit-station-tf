@@ -1,3 +1,8 @@
+variable "myip" {
+  description = "Home public IP"
+  default     = "0.0.0.0/0"
+}
+
 variable "gcp_project" {
   description = "Google Cloud Platform (GCP) Project name"
   type        = string
